@@ -82,7 +82,6 @@ const EntityList = () => {
                             <div><strong>Handle:</strong> {entity.handle}</div>
                             <div><strong>Color Index:</strong> {entity.colorIndex}</div>
                             <div><strong>Color:</strong> {entity.color}</div>
-                            <div><strong>Shape:</strong> {entity.shape}</div>
                         </CardContent>
                     </Card>
                 ))) : (<p>No entities Found</p>)}
