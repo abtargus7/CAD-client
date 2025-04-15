@@ -25,7 +25,7 @@ const EntityList = () => {
 
     const itemsPerPage = 10;
 
-
+    //fetch data from server
     const fetchEntities = async (page) => {
         try {
             const res = await axios.get(`${API_BASE_URL}v1/entities/${id}?page=${page}&limit=${itemsPerPage}`);
@@ -38,6 +38,7 @@ const EntityList = () => {
         }
     };
 
+    //function to limit pagination pages
     const getPaginationItems = (current, total) => {
         const pages = [];
 
@@ -60,6 +61,7 @@ const EntityList = () => {
         return pages;
     };
 
+    //calls when page changes
     useEffect(() => {
         fetchEntities(currentPage);
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -69,6 +71,7 @@ const EntityList = () => {
         <div className="p-6">
             <h1 className="text-2xl font-semibold mb-4">Entities for Block: {id}</h1>
             <ul className="space-y-2">
+                {/* render all entities */}
                 {entities.length > 0 ? (entities?.map((entity, idx) => (
                     <Card key={idx} className="w-full shadow-sm hover:shadow-md transition-shadow">
                         <CardHeader>
@@ -84,6 +87,7 @@ const EntityList = () => {
                     </Card>
                 ))) : (<p>No entities Found</p>)}
             </ul>
+            {/* render pagination component */}
             {totalPages > 1 && (
                 <div className="mt-6 flex justify-center">
                     <Pagination>

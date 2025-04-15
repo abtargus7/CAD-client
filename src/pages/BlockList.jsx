@@ -3,26 +3,35 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API_BASE_URL from "../utils/api";
-import {Button} from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
+import { toast } from "sonner";
 
 const BlockList = () => {
     const { id } = useParams()
     const [blocks, setBlocks] = useState([])
     const navigate = useNavigate()
 
+    //upload file to server 
     const getUploadedFile = async () => {
-        const res = await axios.get(`${API_BASE_URL}v1/blocks/${id}`)
+        try {
+            const res = await axios.get(`${API_BASE_URL}v1/blocks/${id}`)
 
-        if (!res) throw new Error("Blocks not found")
+            if (!res) throw new Error("Blocks not found")
 
-        setBlocks(res.data.data)
-        console.log(res.data.data)
+            setBlocks(res.data.data)
+            toast("All blocks retrieved from File")
+            console.log(res.data.data)
+        } catch (error) {
+            toast(error.message)
+        }
     }
 
+    //click on upload button
     const handleClick = (blockId) => {
         navigate(`/blocks/${blockId}/entities`)
     }
 
+    //called everytime page rerenders
     useEffect(() => {
         getUploadedFile()
     }, [])
@@ -31,6 +40,7 @@ const BlockList = () => {
     return (
         <div className="grid gap-4 mt-4">
             <h1 className="text-2xl font-bold m-auto">BLOCKS</h1>
+            {/* map all blocks */}
             {blocks?.map((block, idx) => (
                 <Card key={idx}>
                     <CardHeader>
